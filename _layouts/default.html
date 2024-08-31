@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    {% include head-custom.html %}
+
+{% seo %}
+  </head>
+  <body>
+    <header class="site-header">
+      <div id="header" class="container">
+        <a id="a-title" href="/">
+          <h1>{{ site.title }}</h1>
+        </a>
+        <nav class="site-nav">
+          <div class="trigger">
+            <a class="page-link" href="/">Home</a>
+            <a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/contact/">Contact</a>
+            <!-- <a class="page-link" href="/server">Server</a> -->
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        {{ content }}
+      </section>
+    </div>
+    <footer style="display: flex; justify-content: center; flex-wrap: wrap;">
+      {% for social in site.socials %}
+        <a href="{{social.url}}" target="_blank" style="display: inline-block; margin: 0 1%;">  
+          <img src="/assets/images/{{social.name}}.svg">
+        </a>
+      {% endfor %}
+    </footer>
+  </body>
+</html>

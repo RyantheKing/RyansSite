@@ -1,0 +1,72 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you:
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+sass:
+  quiet_deps: true
+
+remote_theme: pages-themes/hacker
+plugins:
+  - jekyll-remote-theme
+
+title: Ryan ඞ
+email: ryan@familyking.org
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://ryan.familyking.org" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  RyantheKing
+show_downloads: true
+socials:
+  - name: Discord
+    url: ./discord
+  - name: LinkedIn
+    url: https://linkedin.com/in/ryan-t-king
+  - name: GitHub
+    url: https://github.com/RyantheKing/
+  - name: Signal
+    url: https://signal.me/#eu/73HduMYHEE6F7U8GX6KdM0YdHHB_Y6HHYuhm1Qzz-X3bkiTyS5hOiLGP7Wuaj7AR
+  - name: Email
+    url: mailto:ryan@familyking.org?body=If%20you%20are%20able%20to,%20please%20send%20an%20encrypted%20email%20using%20my%20PGP%20key.%0ADownload%20key%20here:%20ryan.familyking.org/assets/ryan@familyking.org.asc%0AFingerprint:%20[F38A%206F6C%20D472%2008D9%20E8F0%206D7E%20B8A7%20A523%20AB4C%20045C]%0APlease%20also%20send%20your%20PGP%20key%20if%20you%20want%20a%20response%20to%20an%20encrypted%20email.%0AThanks!
+  - name: ProtonMail
+    url: mailto:RyantheKing@proton.me
+  - name: Mastodon
+    url: https://mastodon.social/@Output5435
+
+# Build settings
+# plugins:
+#   - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
