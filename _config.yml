@@ -33,7 +33,7 @@ github_username:  RyantheKing
 show_downloads: true
 socials:
   - name: Discord
-    url: ./discord
+    url: /discord
   - name: LinkedIn
     url: https://linkedin.com/in/ryan-t-king
   - name: GitHub
@@ -59,14 +59,25 @@ socials:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - app.py
+  - config.py
+  - __pycache__/
+  - _site/
+  - site/
+  - .venv/
+  - logs/
+  - run/
+  - .gitignore
+  - gunicorn_start
+  - LICENSE

@@ -9,6 +9,9 @@ vendor/
 # ignore special files for this project
 config.py
 site/
+gunicorn_start
+logs/
+run/
 
 # python-specific
 # Byte-compiled / optimized / DLL files
