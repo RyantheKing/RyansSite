@@ -2,6 +2,7 @@
 layout: default
 title: Server Control
 permalink: /server/
+hidden: true
 ---
 <div id="pc-box"><p>
 <span id="status-indicator" class="indicator busy"></span>

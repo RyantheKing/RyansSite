@@ -24,6 +24,7 @@ sass:
 remote_theme: pages-themes/hacker
 plugins:
   - jekyll-remote-theme
+  - jekyll-last-modified-at
 
 title: Ryan ඞ
 email: ryan@familyking.org
