@@ -12,3 +12,5 @@ Big thanks to hailstorm5437 for the site icon pixel art! \\
 Thank you to [@rogeriopvl](https://twitter.com/rogeriopvl) and [@girlie_mac](https://twitter.com/girlie_mac) for the [HTTP Cats](https://http.cat) API and art. \\
 CSS theme from [GitHub Pages Themes](https://github.com/pages-themes), licensed under CC0-1.0. \\
 The GitHub Repository for this project can be found [here](https://github.com/RyantheKing/RyansSite).
+
+{{ page.last_modified_at | date: '%Y:%B:%A:%d:%S:%R' }}
