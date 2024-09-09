@@ -7,6 +7,9 @@
     {% if page.hidden %}
       <meta name="robots" content="noindex, nofollow">
     {% endif %}
+    {% if page.url == "/" %}
+      <meta name="google-site-verification" content="FAegb6dhLfrKSd8OPKaiom1fCbukm9fNEg9MO7Opbq0" />
+    {% endif %}
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="/assets/css/styles.css">
     {% include head-custom.html %}
