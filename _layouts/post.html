@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<br>
+<h1 style="margin: 0 0 0px;">{{ page.title }}</h1>
+
+<i class="mdi mdi-calendar"> {{ page.date | date: "%-d %B %Y" }}</i>
+<br>
+<i class="mdi mdi-clock-time-three-outline"> {{ page.time }} minute read</i>
+<br>
+<i class="mdi mdi-tag-multiple-outline"> 
+{% if page.tags %}
+  {{ page.tags | join: ", " }}
+{% endif %}
+</i>
+{% if page.repo %}
+  <br>
+  <i class="mdi mdi-github"></i>
+  <a href="https://github.com/RyantheKing/Hand-Controlled-Mouse-Cursor" target="_blank">GitHub Repository</a>
+{% endif %}
+
+<h4 class="view">by {{ page.author | default: site.author }}</h4>
+
+{{content}}
