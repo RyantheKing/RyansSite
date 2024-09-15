@@ -28,6 +28,7 @@ plugins:
 
 title: Ryan ඞ
 email: ryan@familyking.org
+author: Ryan King
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ryan.familyking.org" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  RyantheKing
@@ -47,6 +48,8 @@ socials:
     url: mailto:RyantheKing@proton.me
   - name: Mastodon
     url: https://mastodon.social/@Output5435
+
+permalink: /posts/:title
 
 # Build settings
 # plugins:
