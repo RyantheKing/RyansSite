@@ -46,8 +46,8 @@ socials:
     url: mailto:ryan@familyking.org?body=If%20you%20are%20able%20to,%20please%20send%20an%20encrypted%20email%20using%20my%20PGP%20key.%0ADownload%20key%20here:%20ryan.familyking.org/assets/ryan@familyking.org.asc%0AFingerprint:%20[F38A%206F6C%20D472%2008D9%20E8F0%206D7E%20B8A7%20A523%20AB4C%20045C]%0APlease%20also%20send%20your%20PGP%20key%20if%20you%20want%20a%20response%20to%20an%20encrypted%20email.%0AThanks!
   - name: ProtonMail
     url: mailto:RyantheKing@proton.me
-  - name: Mastodon
-    url: https://mastodon.social/@Output5435
+  - name: Matrix
+    url: https://matrix.to/#/@ryantheking:matrix.org
 
 permalink: /posts/:title
 
