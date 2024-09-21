@@ -16,7 +16,7 @@ layout: default
 {% if page.repo %}
   <br>
   <i class="mdi mdi-github"></i>
-  <a href="https://github.com/RyantheKing/Hand-Controlled-Mouse-Cursor" target="_blank">GitHub Repository</a>
+  <a href="{{ page.repo }}" target="_blank">GitHub Repository</a>
 {% endif %}
 
 <h4 class="view">by {{ page.author | default: site.author }}</h4>
