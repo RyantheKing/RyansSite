@@ -11,7 +11,7 @@ tags:
 ---
 
 ## Detecting pieces on a chess board
-The goal of this project was intially to be able to read a chess board and convert an image from an overhead webcam to a FEN string ([Forsyth-Edwards Notation](https://www.chess.com/terms/fen-chess){:target="_blank"}). This way one could quickly read the board, and then given whose turn it was, use other APIs to return a best move for the user. \
+The goal of this project was initially to be able to read a chess board and convert an image from an overhead webcam to a FEN string ([Forsyth-Edwards Notation](https://www.chess.com/terms/fen-chess){:target="_blank"}). This way one could quickly read the board, and then given whose turn it was, use other APIs to return a best move for the user. \
 This initially required a 2-step solution:
 1. Take a picture of the board and separate it into 64 sub-images, each containing a single square.
 2. Use a specialized AI model to check what type of piece is on each occupied square.
@@ -80,9 +80,9 @@ for rho, theta in lines:
 points = []
 for r_h, t_h in h_lines:
     for r_v, t_v in v_lines: # iterate through all vertical lines for each horizontal line
-        a = np.array([[np.cos(t_h), np.sin(t_h)], [np.cos(t_v), np.sin(t_v)]]) # create matricies of angle ratios of theta values
-        b = np.array([r_h, r_v]) # create matricies of rho values
-        inter_point = np.linalg.solve(a, b) # solve the system of equations using marticies to get intersections of the two lines
+        a = np.array([[np.cos(t_h), np.sin(t_h)], [np.cos(t_v), np.sin(t_v)]]) # create matrices of angle ratios of theta values
+        b = np.array([r_h, r_v]) # create matrices of rho values
+        inter_point = np.linalg.solve(a, b) # solve the system of equations using matrices to get intersections of the two lines
         points.append(inter_point) # add to the list of intersection points
 intersection_points = np.array(points)
 ```
@@ -168,10 +168,10 @@ pts_src = np.array([[top_left_coords[0], top_left_coords[1]],[top_right_coords[0
   temp = cv2.perspectiveTransform(np.array([new_points], dtype=np.float32), h, (im_dst.shape[1],im_dst.shape[0]))
   warped_points = temp.tolist()[0]
 ```
-After this, I can display the points overlayed on the warped original image and it looks like this. \
+After this, I can display the points overlaid on the warped original image and it looks like this. \
 \
 ![Warped](/assets/images/posts/warp.png){:style="display: block; margin: 0 auto; width: 50%;"}
-<figcaption>Original image warped to 800x800 image with warped points overlayed</figcaption> \
+<figcaption>Original image warped to 800x800 image with warped points overlaid</figcaption> \
 One thing you will notice about this image is that not only are there 81 points for each corner of each square on the board, but there are extra corners because this board has a border that is not part of the actual playing space. To fix this, I check if there are more than 9 rows or columns (11 x 11 instead) and pop the extra points. To do this easily, I first organize the points by their x and y values.
 ```python
 new_dimensions = im_out.shape
@@ -251,7 +251,7 @@ def __init__(self, location, x_dict, y_dict, raw):
     self.right_x = (self.coords[1][0] + self.coords[2][0])/2
     self.bot_y = (self.coords[2][1] + self.coords[3][1])/2
     self.left_x = (self.coords[3][0] + self.coords[0][0])/2
-    self.rect_coords = [(self.left_x, self.top_y), (self.right_x, self.top_y), (self.left_x, self.bot_y), (self.right_x, self.bot_y)] # sqaure formed by corners
+    self.rect_coords = [(self.left_x, self.top_y), (self.right_x, self.top_y), (self.left_x, self.bot_y), (self.right_x, self.bot_y)] # square formed by corners
     self.center = ((self.left_x+self.right_x)/2, (self.top_y+self.bot_y)/2) # average the corners to get the center
 ```
 Now I process the image like what I did at the start, except I'm only checking a single square instead of the whole board. \
@@ -260,7 +260,7 @@ One way to determine if a piece is on a square is to convert the image of the sq
 ```python
 self.img = raw[int(self.bot_y):int(self.top_y), int(self.left_x):int(self.right_x)] # crop to the square calculated earlier
 self.gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
-# THRESH_OTSU is a special kind of thesholding that determines the B/W threshold automatically.
+# THRESH_OTSU is a special kind of thresholding that determines the B/W threshold automatically.
 self.thresh, self.bw_mask = cv2.threshold(self.gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 ```
 ![Cropped](/assets/images/posts/cropped.png){:style="display: block; margin: 0 auto;"}
@@ -273,11 +273,11 @@ Once the image is converted to binary you can choose many approaches. One is to 
 ```python
 self.contours, self.hierarchy = cv2.findContours(self.thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) # calculate the contours of the binary shape
 ```
-Unfortunatley, this doesn't do quite enough for me. Binary thresholding is useful for determining the presence of and object. However, I am also trying to figure out the color of the piece on the board.
+Unfortunately, this doesn't do quite enough for me. Binary thresholding is useful for determining the presence of and object. However, I am also trying to figure out the color of the piece on the board.
 <br><br>
 
 ## Getting piece color
-To do this, I start by calculating the average color of the center of the square. In an 800x800 image, each square is appoximately 100x100, so I use a 19x19 square to represent the center. (Note: `self.color` here is the center color, not the color of the whole square.)
+To do this, I start by calculating the average color of the center of the square. In an 800x800 image, each square is approximately 100x100, so I use a 19x19 square to represent the center. (Note: `self.color` here is the center color, not the color of the whole square.)
 ```python
 color_list=[]
 for i in range(int(self.center[1]-9), int(self.center[1]+10)): # loop through center-9 to center+9
@@ -294,7 +294,7 @@ for i in range(int(self.bot_y)+10, int(self.top_y)-9):
 self.whole_color = [sum([i[2] for i in color_list])/len(color_list), sum([i[1] for i in color_list])/len(color_list), sum([i[0] for i in color_list])/len(color_list)]
 ```
 The final step after storing these colors in each Square object is to use them to check each square on the board. \
-This code loops through each square and will contain the logic for determining what piece is on the square. Below I compare the difference on all 3 color channels. Note that `Square.initial_whole_color` is the same as `Square.whole_color` except it isn't updated when `Square.update()` is called. This way, the intital color is same as it was before any pieces were placed on the board. Placing pieces later won't affect the average background color of the square.
+This code loops through each square and will contain the logic for determining what piece is on the square. Below I compare the difference on all 3 color channels. Note that `Square.initial_whole_color` is the same as `Square.whole_color` except it isn't updated when `Square.update()` is called. This way, the initial color is same as it was before any pieces were placed on the board. Placing pieces later won't affect the average background color of the square.
 ```python
 board_format_list = [[],[],[],[],[],[],[],[]]
 board_pieces_list = [[],[],[],[],[],[],[],[]]
@@ -302,7 +302,7 @@ for index1 in range(1,9):
     for index2 in range(1,9):
         board_pieces_list[index1-1].append(board_dict[str(index1)+str(index2)].piece) # Square.piece contains a string with the piece type.
         #                      Initial blank color of the square to check                  Center color of the square to check         check if diff >5 for all channels
-        color_bool_list = [abs(board_dict[str(index1)+str(index2)].intitial_whole_color[i]-board_dict[str(index1)+str(index2)].color[i])<5 for i in range(3)]
+        color_bool_list = [abs(board_dict[str(index1)+str(index2)].initial_whole_color[i]-board_dict[str(index1)+str(index2)].color[i])<5 for i in range(3)]
         if all(color_bool_list):
             board_format_list[8-index1].append(' ') # blank if all color channels have <5 diff
         else:
@@ -400,16 +400,16 @@ def piece_moved(prev_board_list, board_list, piece_list, whites_turn): #checks i
     prev_arr = np.array(prev_board_list)
     arr = np.array(board_list)
     difference = prev_arr!=arr # construct a binary array that compares the string/piece of each square in the new and old board list
-    if np.count_nonzero(difference)==2: # a valid change only occured if exactly 2 squares had a piece or color change
-        locations = np.where(difference) # indicies where the value is True (a piece changed color or a square became occupied/unoccupied)
-        p1, p2 = (locations[0][0], locations[1][0]), (locations[0][1], locations[1][1]) # extract the coodinates of the 2 changed squares
+    if np.count_nonzero(difference)==2: # a valid change only occurred if exactly 2 squares had a piece or color change
+        locations = np.where(difference) # indices where the value is True (a piece changed color or a square became occupied/unoccupied)
+        p1, p2 = (locations[0][0], locations[1][0]), (locations[0][1], locations[1][1]) # extract the coordinates of the 2 changed squares
         if whites_turn:
             # a moved piece would occur if p1 becomes unoccupied (and was initially white) and p2 becomes occupied (and was initially black or empty)
             if (arr[p1]=='W' and arr[p2]==' ' and prev_arr[p2]=='W' and (prev_arr[p1]==' ' or prev_arr[p1]=='B')): #piece moved from p1 to p2.
                 piece_list[p1[0]][p1[1]] = piece_list[p2[0]][p2[1]] # if so, update the piece list with the changed locations
                 piece_list[p2[0]][p2[1]] = ' '
                 return True, p2, p1
-            # the same would also occur if p2 and p1 were swapped since they are arbritary and either can be the starting point
+            # the same would also occur if p2 and p1 were swapped since they are arbitrary and either can be the starting point
             elif (arr[p2]=='W' and arr[p1]==' ' and prev_arr[p1]=='W' and (prev_arr[p2]==' ' or prev_arr[p2]=='B')):  #piece moved from p2 to p1.
                 piece_list[p2[0]][p2[1]] = piece_list[p1[0]][p1[1]]
                 piece_list[p1[0]][p1[1]] = ' '
@@ -429,7 +429,7 @@ def piece_moved(prev_board_list, board_list, piece_list, whites_turn): #checks i
 ```
 You will notice I have not put in code for castling. In that case, 4 squares would change instead of 2, I never got around to it before my college quarter started haha. \
 \
-The final step is to check if a move is valid. Even if a piece moves to a new square or moves to replace another piece, that does not necessarily mean the move is legal. For example, moving my queen from its starting position to take the enemy king would be seen as a move occuring by the previous 2 functions. However, it is most certainly not a legal move in chess. This is where the `chess` library comes in handy again. `piece_moved()` returns 3 arguments. The first is if the move was valid, and the second two are the square the piece moved from and the square it moved to. Using `chess_board.pseudo_legal_moves` I can check if moving the piece to a new square was a valid move.
+The final step is to check if a move is valid. Even if a piece moves to a new square or moves to replace another piece, that does not necessarily mean the move is legal. For example, moving my queen from its starting position to take the enemy king would be seen as a move occurring by the previous 2 functions. However, it is most certainly not a legal move in chess. This is where the `chess` library comes in handy again. `piece_moved()` returns 3 arguments. The first is if the move was valid, and the second two are the square the piece moved from and the square it moved to. Using `chess_board.pseudo_legal_moves` I can check if moving the piece to a new square was a valid move.
 ```python
 # chess.A1 = 0, chess.B1 = 1, chess.A2 = 9, chess.H8 = 63 etc.
 from_num = from_square[0]*8+from_square[1] # format the from_square variable to a square position the chess module understands

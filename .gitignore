@@ -12,6 +12,7 @@ site/
 gunicorn_start
 logs/
 run/
+.vscode/
 
 # python-specific
 # Byte-compiled / optimized / DLL files

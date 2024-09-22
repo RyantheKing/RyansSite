@@ -80,7 +80,7 @@ After all this, we should have a solid B&W mask in which all major parts of the 
 ## Outlining a hand
 Now that we have a bunch of white blobs where foreground objects are, we can find a hand by measuring the blob with the largest area. Smaller blobs would be glitches in the background or small head movements (since ideally the head was captured as part of the "background"). I use `cv2.findContours` to achieve this. `thresh` is our binary image, `cv2.RETR_TREE` defines the contour list so that in the case that a contour blob is nested inside another blob, a tree structure of nested contours is created. This doesn't matter for our purposes however, since we are just checking the area of the blobs. `cv2.CHAIN_APPROX_SIMPLE` is the algorithm for storing the points which compresses the number of points, defining a contour shape by only keeping the necessary ones.
 ```python
-# underscore would normally store the hierarchy buy we dont care
+# underscore would normally store the hierarchy buy we don't care
 contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) # find the contours
 length = len(contours) # get the number of contours
 maxArea = -1
@@ -109,7 +109,7 @@ cv2.circle(frame, (x_max, y_max), 3, (0, 0, 255), 3) # draw a red circle around 
 ```
 ![Result](/assets/images/posts/contour.png){:style="display: block; margin: 0 auto;"}
 <figcaption>The result of drawing the contours and highest point on the contour</figcaption> \
-You might notice in my image, two hands are being outlined, not just one. To achieve this is pretty straightforward. In my code, I split the frame in half and then process each half seperately. This results in finding two contours, one for each side. Then I just draw the contours for each hand on the original frame. \
+You might notice in my image, two hands are being outlined, not just one. To achieve this is pretty straightforward. In my code, I split the frame in half and then process each half separately. This results in finding two contours, one for each side. Then I just draw the contours for each hand on the original frame. \
 Another way you could do this is instead of finding the largest contour out of the list of contours, find the two largest contours. Then you would just need to perform any additional computations once on each contour. This might work better if you don't want the screen strictly divided. However, keep in mind that if hands overlap the binary image mask could see them as the same object since a typical webcam has no depth perception. \
 \
 Finally, remember that everything except the first block of code with the while loop should be in the `findHandPos_frame` function. The function should return the modified frame with lines drawn, the contour object(s), and any other values that you calculate from the contours with extra code. In my case, it looks like this:
