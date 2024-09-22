@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Reading a chess board with OpenCV
-description: Then just borrow a certain something from Hans Niemann!
+description: Next just borrow a certain something from Hans Niemann!
 time: 35
 repo: https://github.com/RyantheKing/chess-detector
 tags:

@@ -5,7 +5,8 @@ permalink: /about/
 ---
 
 My name is Ryan! I am a Computer Engineering student at UC Santa Cruz with an emphasis in Systems Programming. \\
-This website is a server for some of my projects (although most not publicly accesible) and hopefully a landing page for some of my more recent activities and projects. \\
+This website contains my blog in which I write guides on various software-related subjects, but mostly walkthroughs for projects I've made. \\
+It will also be a control page for some of the server projects I host. \\
 \\
 This website was made with [Jekyll](https://jekyllrb.com/){:target="_blank"}. \\
 Big thanks to hailstorm5437 for the site icon pixel art! \\
