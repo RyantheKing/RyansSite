@@ -145,7 +145,7 @@ for i in new_points:
 ```
 Drawing out all these points and overlaying them onto the original image of the board gives an image like the following: \
 \
-![Points](/assets/images/posts/points.png){:style="display: block; margin: 0 auto; width=50%;"}
+![Points](/assets/images/posts/points.png){:style="display: block; margin: 0 auto; width: 50%;"}
 <figcaption>The edge intersection points, corner points, and centerpoint of the board</figcaption>
 <br>
 
@@ -170,7 +170,7 @@ pts_src = np.array([[top_left_coords[0], top_left_coords[1]],[top_right_coords[0
 ```
 After this, I can display the points overlayed on the warped original image and it looks like this. \
 \
-![Warped](/assets/images/posts/warp.png){:style="display: block; margin: 0 auto; width=50%;"}
+![Warped](/assets/images/posts/warp.png){:style="display: block; margin: 0 auto; width: 50%;"}
 <figcaption>Original image warped to 800x800 image with warped points overlayed</figcaption> \
 One thing you will notice about this image is that not only are there 81 points for each corner of each square on the board, but there are extra corners because this board has a border that is not part of the actual playing space. To fix this, I check if there are more than 9 rows or columns (11 x 11 instead) and pop the extra points. To do this easily, I first organize the points by their x and y values.
 ```python
