@@ -49,7 +49,7 @@ socials:
   - name: Matrix
     url: https://matrix.to/#/@ryantheking:matrix.org
 
-permalink: /posts/:title
+permalink: /posts/:title/
 
 # Build settings
 # plugins:
