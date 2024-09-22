@@ -3,12 +3,13 @@ layout: default
 ---
 <br>
 <h1 style="margin: 0 0 0px;">{{ page.title }}</h1>
-
-<i class="mdi mdi-calendar"> {{ page.date | date: "%-d %B %Y" }}</i>
+<h3 style="margin: 0 0 10px;">{{ page.description }}</h3>
+<i class="mdi mdi-calendar"></i><i> {{ page.date | date: "%-d %B %Y" }}</i>
 <br>
-<i class="mdi mdi-clock-time-three-outline"> {{ page.time }} minute read</i>
+<i class="mdi mdi-clock-time-three-outline"></i><i> {{ page.time }} minute read</i>
 <br>
-<i class="mdi mdi-tag-multiple-outline"> 
+<i class="mdi mdi-tag-multiple-outline"></i>
+<i>
 {% if page.tags %}
   {{ page.tags | join: ", " }}
 {% endif %}
@@ -20,7 +21,10 @@ layout: default
 {% endif %}
 
 <h4 class="view">by {{ page.author | default: site.author }}</h4>
+<hr style="height:0px; visibility:hidden;" />
 
-{{content}}
+<section id="post_content">
+  {{content}}
+</section>
 
 <p>- Ryan</p>

@@ -1,6 +1,7 @@
 ---
 layout: post
-title: Hand Tracking with an ordinary webcam
+title: Hand tracking with a webcam
+description: An introduction to image processing with OpenCV
 time: 8
 repo: https://github.com/RyantheKing/webcam-hand-tracking
 tags:
@@ -10,7 +11,7 @@ tags:
   - python
 ---
 
-The goal of this project is to learn how to detect movement in OpenCV by making a quick python module that can be used track the hand position a user. Since the code should be short, we will leave out the possibility of training a ML model, as it complicates the code and would not apply generally to all movement. The plan is to track hands by movement (as opposed to a background which remains still).
+The goal of this project is to learn how to detect movement in OpenCV by making a quick python module that can be used track the hand position a user. Since the code should be short, we will leave out the possibility of training an ML model, as it complicates the code and would not apply generally to all movement. The plan is to track hands by movement (as opposed to a background which remains still).
 <br><br>
 
 ## Starting the video
@@ -97,7 +98,7 @@ At this point we are done! You should now have a green outline that tracks with 
 <br><br>
 
 ## Adding some extra processing
-The code for this project I wrote for a hackathon that needed not only the hand outline, but coordinates for two different hands. Rather notably, hands are not a single point in space, this means that the hand's "location" needs to be determined somehow. I decided to define this point as the tip of a finger, since a person could hold one finger up and the top of their finger would always be a relatively constant location. To do this, all you need to do is check for the highest point on the contour. Keep in mind, in OpenCV, 0,0 is in the top left.
+The code for this project I wrote for a hackathon that needed not only the hand outline, but coordinates for two different hands. Rather notably, hands are not a single point in space; this means that the hand's "location" needs to be determined somehow. I decided to define this point as the tip of a finger, since a person could hold one finger up and the top of their finger would always be a relatively constant location. To do this, all you need to do is check for the highest point on the contour. Keep in mind, in OpenCV, 0,0 is in the top left.
 ```python
 y_max = frame.shape[0]-1 # y_max should be set to the largest y value (at the bottom of the frame)
 for i in range(len(res)): # iterate through the contour

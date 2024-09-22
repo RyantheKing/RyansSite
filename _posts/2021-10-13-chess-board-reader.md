@@ -1,6 +1,7 @@
 ---
 layout: post
-title: Reading a chess board with computer vision
+title: Reading a chess board with OpenCV
+description: Then just borrow a certain something from Hans Niemann!
 time: 35
 repo: https://github.com/RyantheKing/chess-detector
 tags:
@@ -10,9 +11,9 @@ tags:
 ---
 
 ## Detecting pieces on a chess board
-The goal of this project was intially to be able to read a chess board and convert an image from an overhead webcam to a PGN string (Portable Game Notation). This way one could quickly read the board, and then given who's turn it was, use other APIs to return a best move for the user. \
+The goal of this project was intially to be able to read a chess board and convert an image from an overhead webcam to a FEN string ([Forsyth-Edwards Notation](https://www.chess.com/terms/fen-chess){:target="_blank"}). This way one could quickly read the board, and then given whose turn it was, use other APIs to return a best move for the user. \
 This initially required a 2-step solution:
-1. Take a picture of the board and seperate it into 64 sub-images, each containing a single square.
+1. Take a picture of the board and separate it into 64 sub-images, each containing a single square.
 2. Use a specialized AI model to check what type of piece is on each occupied square.
 
 However, as I started on step 2, I realized I had a problem. I could not find any large datasets of chess pieces taken from the top. This would make detecting what type of chess piece is on a square very difficult. Thus, the best I could do without creating my own datasets was to make the camera just detect checkers. It is worth that by taking a video of the board, beginning with the starting position, a program could remember what pieces moved where by tracking where they moved from their previous position. I have a method for this that I will go over later in the article, but it is not fully functional like part 1 is. 
@@ -39,7 +40,7 @@ gray_blur = cv2.blur(gray, (5, 5)) # blur
 <br>
 
 ## Detecting corners of board squares
-After this, I detect both where the lines on the board are, and then if a piece is on a paticular square. I use the Canny edge detector algorithm here (which is already a part of OpenCV). If you wish to learn more about it, OpenCV explains it [here](https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html){:target="_blank"}. Essentially, it checks for where the color gradient in the image changes substantially, thus mapping out all the edges. The `cv2.Canny` function can take 5 arguments, but the last 2 can be left at default values. The second and third arguments are the lower and upper thresholds for the edge detection, respectively.
+After this, I detect both where the lines on the board are, and then if a piece is on a particular square. I use the Canny edge detector algorithm here (which is already a part of OpenCV). If you wish to learn more about it, OpenCV explains it [here](https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html){:target="_blank"}. Essentially, it checks for where the color gradient in the image changes substantially, thus mapping out all the edges. The `cv2.Canny` function can take 5 arguments, but the last 2 can be left at default values. The second and third arguments are the lower and upper thresholds for the edge detection, respectively.
 ```python
 edges = cv2.Canny(img, 0, 900)
 ```
@@ -65,9 +66,9 @@ for rho,theta in lines:
     x2 = int(x0 - 1000*(-b))
     y2 = int(y0 - 1000*(a))
 ```
-Next I seperate the lines into horizontal and vertical, and find their intersections.
+Next I separate the lines into horizontal and vertical, and find their intersections.
 ```python
-# seperate to horizontal and vertical lines
+# separate to horizontal and vertical lines
 h_lines, v_lines = [], []
 for rho, theta in lines:
     if theta < np.pi / 4 or theta > np.pi - np.pi / 4: # check if polar angle is horizontal or vertical
@@ -265,7 +266,7 @@ self.thresh, self.bw_mask = cv2.threshold(self.gray, 128, 255, cv2.THRESH_BINARY
 ![Cropped](/assets/images/posts/cropped.png){:style="display: block; margin: 0 auto;"}
 <figcaption>A grayscale image of a square after cropping</figcaption> \
 Otsu's Binarization method attempts to automatically determine an optimal global threshold for the image by picking a point in between the most prevalent colors in a bimodal image. OpenCV's documentation goes into thresholding in depth [here](https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html){:target="_blank"}. \
-Below is what a binary image of the board looks like. You will notice that the black checkers do not show on the board. This is because when compared to the board as a whole, their color is too similar to the square they are on. This is why it is important to seperate the board into 64 seperate images. When this happens, the black pieces stand out clearly because they are still a different shade of black from the checkerboard they sit on.
+Below is what a binary image of the board looks like. You will notice that the black checkers do not show on the board. This is because when compared to the board as a whole, their color is too similar to the square they are on. This is why it is important to separate the board into 64 separate images. When this happens, the black pieces stand out clearly because they are still a different shade of black from the checkerboard they sit on.
 ![Binary](/assets/images/posts/binary.png){:style="display: block; margin: 0 auto; width: 50%;"}
 <figcaption>Binary thresholding of the entire board</figcaption> \
 Once the image is converted to binary you can choose many approaches. One is to calculate the contour of the shape, which creates freeform lines that follow the outline of the image. I go more in depth into this in my [webcam hand tracking post]({% post_url 2020-04-10-webcam-hand-tracker %}){:target="_blank"}. Another method is to check points near the outside of the square against the center of the square. If they match, there is nothing on the square, if they don't it means the center is a different color and likely has a piece on it.
@@ -391,7 +392,7 @@ else:
     # if it is black's turn, black should have the same number of pieces and white should have the same or one less
     if black_count==old_black_count and (white_count==old_white_count or white_count==old_white_count-1): valid = True
 ```
-On any move in chess, the color who's turn it is cannot lose or gain any pieces. The opponent can lose 1 piece or 0 pieces but cannot lose more than 1 or gain pieces. This code simply checks that the number of pieces counted on the board lines up with how many pieces there should be, since a hand blocking the table could cause a different number of pieces to be read on many frames. \
+On any move in chess, the color whose turn it is cannot lose or gain any pieces. The opponent can lose 1 piece or 0 pieces but cannot lose more than 1 or gain pieces. This code simply checks that the number of pieces counted on the board lines up with how many pieces there should be, since a hand blocking the table could cause a different number of pieces to be read on many frames. \
 \
 The second step is to check if a piece moved. My solution for this step is probably more complicated than it needs to be, but the goal is to check if anywhere on the board, a previously occupied space is now empty (of the correct color) and piece has either swapped colors or appeared where the square used to be blank.
 ```python
@@ -435,7 +436,7 @@ from_num = from_square[0]*8+from_square[1] # format the from_square variable to 
 to_num = to_square[0]*8+to_square[1] # do the same for the to_square
 return chess.Move(from_num, to_num) in chess_board.pseudo_legal_moves # check if the move is in the list of legal moves for the current board
 ```
-Since the code has already confirmed that only one piece has moved and the correct color has moved, the `chess` library makes it incredibly easy to check if this is a valid move. `chess.Board` objects automatically keep track of all piece positions and the player who's turn it is, in order to make the determination of what is a legal move. \
+Since the code has already confirmed that only one piece has moved and the correct color has moved, the `chess` library makes it incredibly easy to check if this is a valid move. `chess.Board` objects automatically keep track of all piece positions and the player whose turn it is, in order to make the determination of what is a legal move. \
 \
 If all three steps are true, and this frame does indeed contain a valid change from the last valid frame, the last step is just to update the variables that track the game state.
 ```python
@@ -443,7 +444,7 @@ chess_board.push(chess.Move(from_num, to_num)) # make the move that was just con
 set_position(board_dict, board_pieces_list) # make the move on the custom board dict that tracks piece position and color 
 last_valid_board_list = board_list.copy() # store this new board configuration as the last valid board configuration
 old_white_count, old_black_count = white_count, black_count # update the number of pieces on the board
-whites_turn = not whites_turn # change who's turn it is
+whites_turn = not whites_turn # change whose turn it is
 
 def set_position(board_dict, pieces_list):
     for index1 in range(1,9): # for all 64 Square objects.
