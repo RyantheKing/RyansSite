@@ -13,6 +13,7 @@ gunicorn_start
 logs/
 run/
 .vscode/
+Gemfile.lock
 
 # python-specific
 # Byte-compiled / optimized / DLL files

@@ -14,4 +14,15 @@ layout: null
       </url>
     {% endif %}
   {% endfor %}
+  {% for post in site.posts %}
+    {% assign arr = post.url | split: "" %}
+    {% if arr.last == "/" and post.hidden != true %}
+      <url>
+        <loc>{{ site.url }}{{ post.url | remove: "index.html" }}</loc>
+        <lastmod>{{ post.last_modified_at | date_to_xmlschema }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+      </url>
+    {% endif %}
+  {% endfor %}
 </urlset>
