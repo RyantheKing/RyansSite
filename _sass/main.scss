@@ -1,3 +1,11 @@
+* {
+    cursor: url('../../assets/images/peeper.png'), auto;
+}
+
+html {
+    min-height: 100%;
+}
+
 .home-image-container {
     display: flex;
     gap: 2%;
