@@ -24,7 +24,7 @@ It is worth nothing here that you could also position the headset above your com
 
 ![My headset setup](/assets/images/posts/vrsetup.png){:style="display: block; margin: 0 auto;"}
 <figcaption>My personal setup (you can see a mannequin head atop a PVC pipe behind my head)</figcaption> \
-The last thing we need to do is ensure that the headset stays on. The Quest 2 has a proximity sensor between the lenses that can detect if you are wearing it. To make our lives a lot easier we will hve to disable it. You will need to put your headset in developer mode (there are many guides online for this) and then disable the proximity sensor in SideQuest. \
+The last thing we need to do is ensure that the headset stays on. The Quest 2 has a proximity sensor between the lenses that can detect if you are wearing it. To make our lives a lot easier we will have to disable it. You will need to put your headset in developer mode (there are many guides online for this) and then disable the proximity sensor in SideQuest. *Edit: You can now also do this within the headset settings with a recent software update. (Once developer mode is enabled)* \
 \
 ![Proximity disable](/assets/images/posts/proximity.png){:style="display: block; margin: 0 auto;"}
 <figcaption>The setting to disable the proximity sensor in SideQuest</figcaption> \
@@ -32,4 +32,4 @@ The last thing we need to do is ensure that the headset stays on. The Quest 2 ha
 <br><br>
 
 ## Unity Setup
-To get this to work we need 3 things. Hand tracking data being recorded on the headset, mouse control on our PC, and a bridge between the two. First I will discuss how I recorded hand tracking data on the Quest. Lucky for me, 
+To get this to work we need 3 things. Hand tracking data being recorded on the headset, mouse control on our PC, and a bridge between the two. First I will discuss how I recorded hand tracking data on the Quest. Lucky for me, Unity comes with a package that can detect basic hand movements using the OVRHand class.

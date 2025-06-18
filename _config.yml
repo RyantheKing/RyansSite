@@ -49,13 +49,16 @@ socials:
   - name: Discord
     url: /discord
   - name: Matrix
-    url: https://matrix.to/#/@ryantheking:matrix.org
+    url: https://matrix.to/#/@ryantheking:craftingcomrades.net
 
 permalink: /posts/:title/
 
 # Build settings
 # plugins:
 #   - jekyll-feed
+
+include:
+ - .well-known
 
 # Exclude from processing.
 # The following items will not be processed, by default.
