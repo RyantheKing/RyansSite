@@ -20,7 +20,7 @@ This guide will assume you already have a Synology NAS that is up and running at
 There are many options for hardware when making a backup server. The two main decisions to be made are the computer to use for the server, and the drives to use. Your choice of computer can affect how many storage drives you are able to have, how much power your server uses, and how well it can perform certain tasks. Your choice of drives can also affect how much power your server uses, but will mainly affect drive speed, cost, and noise.
 
 ### Computer Hardware Choices
-Since cost is my main deciding factor, I chose to use an old Optiplex 390 that I already had. I have a couple other computers on hand like Raspberry Pis, but they are less powerful and also present a challenge when trying to connect a large number of drives. The Optiplex motherboard comes with 4 onboard SATA ports and a PCIe lane that I use to add more than 4 drives. If you plan to use the ZFS filesystem, it is also important that you consider the ZFS RAM recommendations. \
+Since cost is my main deciding factor, I chose to use an old Optiplex 390 that I already had. I have a couple other computers on hand like Raspberry Pis, but they are less powerful and also present a challenge when trying to connect a large number of drives. The Optiplex motherboard comes with 4 onboard SATA ports and a PCIe lane that I use to add more than 4 drives. If you plan to use the ZFS file system, it is also important that you consider the ZFS RAM recommendations. \
 If you want a slightly more preconfigured hardware option, you can get a NAS board. One such board is the [CM3588 NAS Kit](https://www.friendlyelec.com/index.php?route=product%2Fproduct&product_id=294){:target="_blank"} ($130-$145) or the [CM3588 Plus NAS Kit](https://www.friendlyelec.com/index.php?route=product/product&path=60&product_id=299){:target="_blank"} ($160-$220) recommended by [Linus Tech Tips](https://youtu.be/QsM6b5yix0U){:target="_blank"}. It has a high network bandwidth and space for a sufficient number of drives while having a power draw similar to a raspberry pi.
 
 ### Drive Choices 
@@ -30,15 +30,15 @@ For the system drive (contains the OS), I am using a SATA SSD (also because I ha
 Once you have these parts you can assemble your backup server and move on to installing OMV. Below is picture of mine (please don’t judge). \
 \
 ![My Server](/assets/images/posts/omvnas.jpeg){:style="display: block; margin: 0 auto; width: 75%;"}
-<figcaption>A photo of my mutilated optiplex 390 with a wooden apparatus for storing 12 drives</figcaption>
+<figcaption>A photo of my mutilated Optiplex 390 with a wooden apparatus for storing 12 drives</figcaption>
 <br>
 
 ## Software (OMV)
-While any linux distro is fine, this guide will use OpenMediaVault, since it comes with the tools necessary and runs on any device. \
+While any Linux distro is fine, this guide will use OpenMediaVault, since it comes with the tools necessary and runs on any device. \
 Below are guides for installing OpenMediaVault on a variety of devices:
 	⁃	[All x86 and some ARM devices](https://docs.openmediavault.org/en/latest/installation/via_iso.html){:target="_blank"} (you will need a USB drive)
 	⁃	[Raspberry Pi](https://wiki.omv-extras.org/doku.php?id=omv7:raspberry_pi_install){:target="_blank"}
-	⁃	[CM3588](https://wiki.friendlyelec.com/wiki/index.php/CM3588#Install_OS){:target="_blank"} (Use either the OMV image provided by friendlyelec or install Debian and follow the install on Debian instructions.)
+	⁃	[CM3588](https://wiki.friendlyelec.com/wiki/index.php/CM3588#Install_OS){:target="_blank"} (Use either the OMV image provided by FriendlyElec or install Debian and follow the install on Debian instructions.)
 	⁃	[Installation for SBC chips](https://wiki.omv-extras.org/doku.php?id=omv7:armbian_bookworm_install){:target="_blank"} (Use this method for ARM SBC chips other than the raspberry pi.
 Once you have installed OMV, you can quickly setup the server to back up your Synology NAS.
 <br><br>
@@ -64,10 +64,10 @@ None of these plugins are strictly necessary for this tutorial, although you sho
 <br><br>
 
 ## Configuring the backup
-There are 3 main steps to configuring OMV to be used as a backup server. First we need to set up a filesystem and shared folder to back up the data to. Then we need to configure a VPN to allow the servers to communicate across the internet. Finally we need to set up an rsync server and Synology Hyperbackup task to transfer the data to our new server.
+There are 3 main steps to configuring OMV to be used as a backup server. First we need to set up a file system and shared folder to back up the data to. Then we need to configure a VPN to allow the servers to communicate across the internet. Finally we need to set up an rsync server and Synology Hyperbackup task to transfer the data to our new server.
 
-### Filesystem Setup 
-If you haven’t already, plug in your data drives (they should have been removed for the OMV installation). They should then be visible in the `Storage -> Drives` where you can note the disk paths and adjust settings like write-cache, spindown/power usage/performance, and S.M.A.R.T. reporting. \
+### File System Setup 
+If you haven’t already, plug in your data drives (they should have been removed for the OMV installation). They should then be visible in the `Storage -> Drives` where you can note the disk paths and adjust settings like write-cache, spin-down/power usage/performance, and S.M.A.R.T. reporting. \
 First wipe the disks to make sure the partition table is correct. Then go to `Storage -> File Systems` and click `create and mount a file system`. BTRFS is supported out of the box in OMV for parity file systems. Alternatively you can use the [SnapRAID](https://wiki.omv-extras.org/doku.php?id=omv7:omv7_plugins:snapraid){:target="_blank"} or ZFS plugins for other parity options. \
 \
 Once your file system is created and mounted, head over to `Storage -> Shared Folders`. Click `Create` to make a new folder and set the File system to the one you made earlier as well as picking a name. This folder is where all the data from your Synology NAS will be stored. Don't edit the `relative path` field, it will be created automatically. You can also set the permissions so that only administrators have access.
@@ -77,7 +77,7 @@ Next, we will want to connect to our Synology NAS via the built in VPN it has. F
 \
 ![OpenVPN Setup](/assets/images/posts/openvpn.png){:style="display: block; margin: 0 auto; width: 80%;"}
 
-After enabling the VPN, head over to the Privilege section and make sure OpenVPN is only enabled for users who need it. I use one VPN account that has a different password from any of the other user accounts so that comprimised user login details don't allow bad actors remote access to the NAS. You will also need a dedicated user account that only OpenMediaVault will use. I recommend going to `Control Panel -> User & Group` and denying access to all folders and applications for any accounts that have access to the VPN. This seperates credentials, requiring different passwords for remote access and making filesystem changes to the NAS. \
+After enabling the VPN, head over to the Privilege section and make sure OpenVPN is only enabled for users who need it. I use one VPN account that has a different password from any of the other user accounts so that compromised user login details don't allow bad actors remote access to the NAS. You will also need a dedicated user account that only OpenMediaVault will use. I recommend going to `Control Panel -> User & Group` and denying access to all folders and applications for any accounts that have access to the VPN. This separates credentials, requiring different passwords for remote access and making file system changes to the NAS. \
 \
 Lastly we need to ensure that when the backup server connects to the Synology NAS, it always uses the same IP address. This is important so that Synology knows where to backup files to. First go to `Control Panel -> Terminal & SNMP` and tick `Enable SSH service`. Now you can ssh into your Synology NAS so that we can add a configuration file. SSH in with:
 ```bash
@@ -136,7 +136,7 @@ sudo reboot
 ```
 If you haven't already, to make sure devices on external networks can connect to your VPN Server, forward port `1194` over `UDP` on the router your Synology NAS connects to.
 ![Port Forwarding](/assets/images/posts/portforward.png){:style="display: block; margin: 0 auto; width: 100%;"}
-<figcaption>What the port forwarding setting looks like on my linksys router</figcaption>
+<figcaption>What the port forwarding setting looks like on my Linksys router</figcaption>
 <br>
 
 ### OMV VPN Setup
@@ -151,7 +151,7 @@ Get OpenVPN package signing key
 curl -sSfL https://packages.openvpn.net/packages-repo.gpg >/etc/apt/keyrings/openvpn.asc
 echo "deb [signed-by=/etc/apt/keyrings/openvpn.asc] https://packages.openvpn.net/openvpn3/debian bookworm main" >>/etc/apt/sources.list.d/openvpn3.list
 ```
-As of the writing of this post, the latest version of OpenMediaVault is based on Debian bookworm. If the release name for the debian version isn't `bookworm` anymore, change the second line to reflect the current codename (you can check by running `cat /etc/os-release` and looking at the `VERSION_CODENAME` field). \
+As of the writing of this post, the latest version of OpenMediaVault is based on Debian bookworm. If the release name for the Debian version isn't `bookworm` anymore, change the second line to reflect the current codename (you can check by running `cat /etc/os-release` and looking at the `VERSION_CODENAME` field). \
 \
 Finally, install openvpn3:
 ```bash
@@ -227,7 +227,7 @@ If you encounter permissions errors later, you may need to adjust the ACLs of th
 Next, open the OpenMediaVault web workbench and go to `Services -> Rsync -> Server`. \
 First click on `Settings` and check the box to enable Rsync. I'm using port 873, but you can use any unused port, just make sure you remember it for later. \
 After enabling the rsync server, go to `Modules` and click the button to create a new module. `Shared folder` should be set to the shared folder you created at the start. For the `Name` I just used the same name as the Shared folder, but you can use anything. For `User`, select the user you just created and for `Group` select `nogroup`. \
-The next section is the `Users` section. This is seperate from users on the OMV system, it is instead a list of names and passwords for you to hand out to services who use this rsync server, so they can validate that they have access. Create a new user for this module by clicking the create button. For the name, I use the same name as the account doing the file transfers (I use `rsync` as the name). You can use any name however. For `Password`, make sure it is unique from any other passwords on the system. \
+The next section is the `Users` section. This is separate from users on the OMV system, it is instead a list of names and passwords for you to hand out to services who use this rsync server, so they can validate that they have access. Create a new user for this module by clicking the create button. For the name, I use the same name as the account doing the file transfers (I use `rsync` as the name). You can use any name however. For `Password`, make sure it is unique from any other passwords on the system. \
 \
 Lastly make sure:
 * `Use chroot` is checked
@@ -235,7 +235,7 @@ Lastly make sure:
 * `Read-only` is NOT checked
 * `Write-only` is NOT checked
 * `List module` is checked
-* `Hosts allow` contains the LOCAL ip address of your Synology NAS
+* `Hosts allow` contains the LOCAL IP address of your Synology NAS
 * `Hosts deny` is set to `ALL`
 
 You can now save and your rsync server should be operational!
@@ -250,7 +250,7 @@ On the backup destination settings page, set the following:
 * `Port` is the rsync port on OMV
 * `Username` is the username you set inside of the rsync module settings in OMV
 * `Password` is the password you set for the rsync module
-* Click on the `Backup module` dropdown, the rsync module you created should automatically advertise itself.
+* Click on the `Backup module` drop-down, the rsync module you created should automatically advertise itself.
 
 Now you are done! You can select the folders and applications you want to back up, enable settings like client-side encryption (if you are worried about the security of the files on your OMV server), and create a backup schedule. \
 The first backup will take a long time especially if you have slow internet (I had to do the initial backup by moving my server to the same network as my NAS temporarily), but subsequent backups should only transfer the changes in data. \
