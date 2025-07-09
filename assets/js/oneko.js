@@ -1,5 +1,11 @@
 // oneko.js: https://github.com/adryd325/oneko.js
 
+function randomCoord(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 (function oneko() {
     const isReducedMotion =
       window.matchMedia(`(prefers-reduced-motion: reduce)`) === true ||
@@ -9,11 +15,12 @@
   
     const nekoEl = document.createElement("div");
   
-    let nekoPosX = 32;
-    let nekoPosY = 32;
+    let nekoPosX = randomCoord(32, window.innerWidth - 63);
+    let nekoPosY = randomCoord(32, window.innerHeight - 63);
   
-    let mousePosX = 0;
-    let mousePosY = 0;
+    let mousePosX = nekoPosX - 32;
+    let mousePosY = nekoPosY - 32;
+    let mouseDown = false;
   
     let frameCount = 0;
     let idleTime = 0;
@@ -91,17 +98,11 @@
       nekoEl.style.height = "32px";
       nekoEl.style.position = "fixed";
       nekoEl.style.pointerEvents = "none";
+      nekoEl.style.backgroundImage = "url('/assets/images/oneko.gif')";
       nekoEl.style.imageRendering = "pixelated";
-      nekoEl.style.left = `${nekoPosX - 16}px`;
-      nekoEl.style.top = `${nekoPosY - 16}px`;
+      nekoEl.style.left = `${nekoPosX}px`;
+      nekoEl.style.top = `${nekoPosY}px`;
       nekoEl.style.zIndex = 2147483647;
-  
-      let nekoFile = "/assets/images/oneko.gif"
-      const curScript = document.currentScript
-      if (curScript && curScript.dataset.cat) {
-        nekoFile = curScript.dataset.cat
-      }
-      nekoEl.style.backgroundImage = `url(${nekoFile})`;
   
       document.body.appendChild(nekoEl);
   
@@ -109,8 +110,15 @@
         mousePosX = event.clientX;
         mousePosY = event.clientY;
       });
+      document.addEventListener("mousedown", toggleMouseState);
+      document.addEventListener("mouseup", toggleMouseState);
   
       window.requestAnimationFrame(onAnimationFrame);
+    }
+
+    function toggleMouseState(e) {
+      var flags = e.buttons !== undefined ? e.buttons : e.which;
+      mouseButtonDown = (flags & 1) === 1;
     }
   
     let lastFrameTimestamp;
@@ -144,12 +152,8 @@
       idleTime += 1;
   
       // every ~ 20 seconds
-      if (
-        idleTime > 10 &&
-        Math.floor(Math.random() * 200) == 0 &&
-        idleAnimation == null
-      ) {
-        let avalibleIdleAnimations = ["sleeping", "scratchSelf"];
+      if (idleTime > 10 && Math.floor(Math.random() * 20) == 0 && idleAnimation == null) {
+        let avalibleIdleAnimations = ["sleeping"];
         if (nekoPosX < 32) {
           avalibleIdleAnimations.push("scratchWallW");
         }
@@ -161,6 +165,9 @@
         }
         if (nekoPosY > window.innerHeight - 32) {
           avalibleIdleAnimations.push("scratchWallS");
+        }
+        if ((nekoPosY < window.innerHeight - 32) && (nekoPosX < window.innerWidth - 32) && (nekoPosY > 32) && (nekoPosX > 32)) {
+          avalibleIdleAnimations.push("scratchSelf");
         }
         idleAnimation =
           avalibleIdleAnimations[
