@@ -208,8 +208,7 @@ function randomCoord(min, max) {
       const diffX = nekoPosX - mousePosX;
       const diffY = nekoPosY - mousePosY;
       const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
-  
-      if (distance < nekoSpeed || distance < 48) {
+      if (distance < nekoSpeed || distance < 32 || (distance < 48 && mousePosX > 10 && mousePosX < window.innerWidth-10 && mousePosY > 10 && mousePosY < window.innerHeight-10)) {
         idle();
         return;
       }
