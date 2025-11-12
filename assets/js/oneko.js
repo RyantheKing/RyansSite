@@ -14,11 +14,11 @@ function isOnTopOfAnyElement(x, y, selectors) {
   return el.matches(selectors);
 }
 
-function generateSpawn(min, max) {
+function generateSpawn(minH, minV, maxH, maxV) {
   let x, y;
   do {
-    x = randomCoord(min, max);
-    y = randomCoord(min, max);
+    x = randomCoord(minH, maxH);
+    y = randomCoord(minV, maxV);
   } while (isOnTopOfAnyElement(x, y, "p, a, i, h1, h2, h3, h4, h5, h6, img"))
   return [x, y];
 }
@@ -34,7 +34,7 @@ function oneko() {
 
   // let nekoPosX = randomCoord(32, window.innerWidth - 63);
   // let nekoPosY = randomCoord(32, window.innerHeight - 63);
-  let [nekoPosX, nekoPosY] = generateSpawn(32, window.innerWidth - 63);
+  let [nekoPosX, nekoPosY] = generateSpawn(32, 32, window.innerWidth - 63, window.innerHeight - 63);
   
   let mousePosX = nekoPosX;
   let mousePosY = nekoPosY;
@@ -134,13 +134,13 @@ function oneko() {
     });
 
     document.addEventListener("mouseout", (event) => {
-      if (!event.relatedTarget && !event.toElement) {
+      if (!event.relatedTarget && !event.toElement && mouseInWindow) {
         mouseInWindow = false;
       }
     });
 
     document.addEventListener("mouseover", (event) => {
-      if (!event.relatedTarget && !event.fromElement) {
+      if (!event.relatedTarget && !event.fromElement && !mouseInWindow) {
         mouseInWindow = true;
         moved = true;
       }
@@ -176,7 +176,7 @@ function oneko() {
     idleAnimationFrame = 0;
   }
 
-  function idle(distance) {
+  function idle() {
     idleTime += 1;
 
     if (!mouseInWindow && exists && moved) {
@@ -199,7 +199,7 @@ function oneko() {
         resetIdleAnimation();
         moved = false;
         setSprite("idle", 0);
-        [nekoPosX, nekoPosY] = generateSpawn(32, window.innerWidth - 63);
+        [nekoPosX, nekoPosY] = generateSpawn(32, 32, window.innerWidth - 63, window.innerHeight - 63);
         mousePosX = nekoPosX;
         mousePosY = nekoPosY;
         nekoEl.style.left = `${nekoPosX - 16}px`;
@@ -237,8 +237,8 @@ function oneko() {
     const diffY = nekoPosY - mousePosY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
-    if ((distance < nekoSpeed || distance < 17) || exists == false || !mouseInWindow) {
-      idle(distance);
+    if (distance < nekoSpeed || distance < 17 || exists == false || !mouseInWindow) {
+      idle();
       return;
     }
     if (!exists) {
