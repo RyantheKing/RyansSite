@@ -19,7 +19,7 @@ function generateSpawn(minH, minV, maxH, maxV) {
   do {
     x = randomCoord(minH, maxH);
     y = randomCoord(minV, maxV);
-  } while (isOnTopOfAnyElement(x, y, "p, a, i, h1, h2, h3, h4, h5, h6, img"))
+  } while (isOnTopOfAnyElement(x, y, "p, a, i, h1, h2, h3, h4, h5, h6, img, label, input"))
   return [x, y];
 }
 
