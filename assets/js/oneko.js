@@ -43,6 +43,7 @@ function oneko() {
   let idleTime = 0;
   let moved = false;
   let exists = true;
+  let stall = 7;
   let idleAnimation = null;
   let idleAnimationFrame = 0;
   let mouseInWindow = true;
@@ -145,6 +146,8 @@ function oneko() {
         moved = true;
       }
     });
+
+    setSprite("idle", 0);
     
     window.requestAnimationFrame(onAnimationFrame);
   }
@@ -205,6 +208,7 @@ function oneko() {
         nekoEl.style.left = `${nekoPosX - 16}px`;
         nekoEl.style.top = `${nekoPosY - 16}px`;
         exists = true;
+        stall = 7;
         return;
       }
       if (idleAnimationFrame < 8) {
@@ -236,6 +240,12 @@ function oneko() {
     const diffX = nekoPosX - mousePosX;
     const diffY = nekoPosY - mousePosY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
+
+    if (stall > 0) {
+      stall--;
+      idleTime = 7;
+      return;
+    }
 
     if (distance < nekoSpeed || distance < 17 || exists == false || !mouseInWindow) {
       idle();
@@ -279,7 +289,3 @@ function oneko() {
 
   init();
 }
-
-window.onload = () => {
-  oneko();
-};

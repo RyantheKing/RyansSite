@@ -41,7 +41,25 @@
           <img src="/assets/images/{{social.name}}.svg">
         </a>
       {% endfor %}
+      <p class="js-only" style="flex-basis: 100%; text-align: center;">
+        Settings:
+        <label>
+          <input type="checkbox" id="cursorToggle" checked style="margin-right: 4px;">Enable custom cursor
+        </label>
+        <span style="display:inline-block; width:8px;"></span>
+        <label>
+          <input type="checkbox" id="crashfishToggle" checked style="margin-right: 4px;">Enable crashfish
+        </label>
+      </p>
     </footer>
+    <noscript>
+      <style>
+        .js-only {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <script src="/assets/js/settings.js"></script>
     <script src="/assets/js/oneko.js"></script>
   </body>
 </html>

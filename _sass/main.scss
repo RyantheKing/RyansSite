@@ -1,5 +1,12 @@
 * {
-    cursor: url('../../assets/images/peeper.png'), auto;
+    cursor: auto;
+  }
+
+html.custom-cursor,
+html.custom-cursor *,
+html.custom-cursor *::before,
+html.custom-cursor *::after {
+  cursor: url('../../assets/images/peeper.png'), auto !important;
 }
 
 html {
